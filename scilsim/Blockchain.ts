@@ -36,4 +36,8 @@ export class Blockchain {
     console.log(`Event from ${tx._recipient}`);
     console.log(e);
   }
+
+  static fetch<E extends Account>(address: string) {
+    return this.accounts[address] as E;
+  }
 }
