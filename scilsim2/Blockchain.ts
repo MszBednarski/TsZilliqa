@@ -6,20 +6,31 @@ export class Blockchain {
   protected static addAccount(a: Account) {
     Blockchain.accounts[a._address] = a;
   }
-  static send(t: WrappedTransaction) {
+  static send<T>(t: WrappedTransaction<T>) {
+    if (t._amount < 0) {
+      throw new Error(`Amount smaller than 0 ${t._amount}, ${t._sender}`);
+    }
     console.log(t);
     //@ts-ignore
-    Blockchain.accounts[t._recipient][t.tag](t);
+    Blockchain.accounts[t._recipient][t._tag](t);
   }
   static accept(t: ReceivedTransaction) {
-    const { _recipient, _sender, amount } = t as WrappedTransaction;
+    const { _recipient, _sender, _amount } = t as WrappedTransaction;
     const _sender_balance = Blockchain.accounts[_sender]._balance;
-    if (_sender_balance >= amount) {
+    if (_sender_balance >= _amount) {
       Blockchain.accounts[_recipient]._balance =
-        Blockchain.accounts[_recipient]._balance + amount;
-      Blockchain.accounts[_sender]._balance = _sender_balance - amount;
+        Blockchain.accounts[_recipient]._balance + _amount;
+      Blockchain.accounts[_sender]._balance = _sender_balance - _amount;
       return;
     }
-    throw new Error(`${_sender} Insufficient funds ${_sender_balance-amount}`);
+    throw new Error(
+      `${_sender} Insufficient funds ${_sender_balance - _amount}`
+    );
+  }
+
+  static emit<E extends { _eventname: string }>(t: ReceivedTransaction, e: E) {
+    const tx = t as WrappedTransaction;
+    console.log(`Event from ${tx._recipient}`);
+    console.log(e);
   }
 }

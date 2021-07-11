@@ -5,6 +5,7 @@ import {
   Transaction,
   ReceivedTransaction,
 } from "./Transaction";
+
 /**
  * base
  * every entity
@@ -21,12 +22,17 @@ export class Account extends Blockchain {
     Blockchain.addAccount(this);
   }
 
-  send(t: Transaction) {
-    const tx: WrappedTransaction = { ...t, _sender: this._address };
+  send<T extends {}>(t: Transaction<T>) {
+    const tx: WrappedTransaction<T> = { ...t, _sender: this._address };
     Blockchain.send(tx);
+  }
+
+  emit<E extends { _eventname: string }>(t: ReceivedTransaction, e: E) {
+    Blockchain.emit(t, e);
   }
 
   AddFunds(t: ReceivedTransaction) {
     Blockchain.accept(t);
+    Blockchain.emit(t, { _eventname: "AddFunds", amount: t._amount });
   }
 }

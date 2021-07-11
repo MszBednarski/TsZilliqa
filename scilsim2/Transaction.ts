@@ -1,11 +1,14 @@
-export type Transaction = {
-  tag: string;
-  amount: number;
+export type Transaction<T = {}> = {
+  _tag: string;
+  _amount: number;
   _recipient: string;
-};
+} & T;
 
-export type WrappedTransaction = Transaction & {
+export type WrappedTransaction<T = {}> = Transaction<T> & {
   _sender: string;
 };
 
-export type ReceivedTransaction = { _sender: string; amount: number };
+export type ReceivedTransaction<Params extends {} = {}> = {
+  _sender: string;
+  _amount: number;
+} & Params;

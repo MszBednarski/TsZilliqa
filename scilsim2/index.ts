@@ -5,7 +5,11 @@ import { Account } from "./Account";
 const a1 = new Account({ _balance: 100 });
 const a2 = new Account();
 
-a1.send({ _recipient: a2._address, tag: "AddFunds", amount: 33 });
+a1.send({
+  _recipient: a2._address,
+  _amount: 33,
+  _tag: "AddFunds",
+});
 
 console.log(a1);
 console.log(a2);
