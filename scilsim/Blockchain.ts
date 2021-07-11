@@ -11,6 +11,10 @@ export class Blockchain {
       throw new Error(`Amount smaller than 0 ${t._amount}, ${t._sender}`);
     }
     //@ts-ignore
+    if (typeof Blockchain.accounts[t._recipient][t._tag] != "function") {
+      throw new Error(`${t._tag} is not a function in: ${t._recipient}`);
+    }
+    //@ts-ignore
     Blockchain.accounts[t._recipient][t._tag](t);
   }
   static accept(t: ReceivedTransaction) {

@@ -65,10 +65,10 @@ export class ZRC2 extends Account {
   DecreaseAllowance(
     t: ReceivedTransaction<{ spender: string; amount: number }>
   ) {
-    this.IsNotSender(t, t._sender);
+    this.IsNotSender(t, t.spender);
     const current = this.getAlowance(t._sender, t.spender);
     const diff = current - t.amount;
-    const new_allowance = diff < 0 ? diff : 0;
+    const new_allowance = diff < 0 ? 0 : diff;
     this.allowances[t._sender][t.spender] = new_allowance;
     this.emit(t, {
       _eventname: "DecreaseAllowance",
@@ -120,7 +120,7 @@ export class ZRC2 extends Account {
       ...event,
     });
     const new_allowance = allowance - t.amount;
-    this.allowances[t.from][t.to] = new_allowance;
+    this.allowances[t.from][t._sender] = new_allowance;
     const msg = {
       _recipient: t.to,
       _amount: 0,

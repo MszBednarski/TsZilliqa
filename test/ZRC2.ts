@@ -30,4 +30,21 @@ Alice.send({
   amount: 420,
 });
 
+Josh.send({
+  _recipient: oxygen._address,
+  _amount: 0,
+  _tag: "TransferFrom",
+  from: Alice._address,
+  to: Bob._address,
+  amount: 320,
+});
+
+Alice.send({
+  _recipient: oxygen._address,
+  _amount: 0,
+  _tag: "DecreaseAllowance",
+  spender: Josh._address,
+  amount: 1000,
+});
+
 log({ oxygen });

@@ -38,4 +38,6 @@ export class Account extends Blockchain {
 
   RecipientAcceptTransfer(t: ReceivedTransaction) {}
   TransferSuccessCallBack(t: ReceivedTransaction) {}
+  RecipientAcceptTransferFrom(t: ReceivedTransaction) {}
+  TransferFromSuccessCallBack(t: ReceivedTransaction) {}
 }
