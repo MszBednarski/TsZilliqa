@@ -15,10 +15,10 @@ export class Account extends Blockchain {
   _balance: number;
   _address: string;
 
-  constructor(init?: { _balance: number }) {
+  constructor(init?: { _balance?: number; address?: string }) {
     super();
-    this._balance = init ? init._balance : 0;
-    this._address = v4();
+    this._balance = init ? (init._balance ? init._balance : 0) : 0;
+    this._address = init ? (init.address ? init.address : v4()) : v4();
     Blockchain.addAccount(this);
   }
 
@@ -35,4 +35,7 @@ export class Account extends Blockchain {
     Blockchain.accept(t);
     Blockchain.emit(t, { _eventname: "AddFunds", amount: t._amount });
   }
+
+  RecipientAcceptTransfer(t: ReceivedTransaction) {}
+  TransferSuccessCallBack(t: ReceivedTransaction) {}
 }

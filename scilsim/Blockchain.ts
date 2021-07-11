@@ -10,7 +10,6 @@ export class Blockchain {
     if (t._amount < 0) {
       throw new Error(`Amount smaller than 0 ${t._amount}, ${t._sender}`);
     }
-    console.log(t);
     //@ts-ignore
     Blockchain.accounts[t._recipient][t._tag](t);
   }
